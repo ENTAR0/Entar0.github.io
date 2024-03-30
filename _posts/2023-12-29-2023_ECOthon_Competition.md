@@ -16,7 +16,7 @@ tags: [ESG, TeamProject, ECO]
 ```
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/6e389684-dbc5-4088-94b2-b6f60fdd1276" width="1200" height="200"/>
+<img src="https://github.com/cisco/openh264/assets/56510688/6e389684-dbc5-4088-94b2-b6f60fdd1276" width="880" height=""/>
 <p><b>[그림1]. 제공하는 환경데이터</b></p>
 </center>
 
@@ -32,14 +32,14 @@ tags: [ESG, TeamProject, ECO]
     - 분석 아이디어
     - 직접 분석
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/63da9137-2df3-427f-8082-a1a7359cb9fc" width="1200" height="760"/>
+<img src="https://github.com/cisco/openh264/assets/56510688/63da9137-2df3-427f-8082-a1a7359cb9fc" width="880" height=""/>
 <p><b>[그림2]. 환경데이터 활용 부문</b></p>
 </center>
 
 # 3. Competition Process
 공모전은 아래와 같이 총 5단계로 진행되었습니다.
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/1f49a34d-3e7b-4c60-8f0e-fe2ce641c8c3" width="1200" height="200"/>
+<img src="https://github.com/cisco/openh264/assets/56510688/1f49a34d-3e7b-4c60-8f0e-fe2ce641c8c3" width="880" height=""/>
 <p><b>[그림3]. 공모전 추진 일정</b></p>
 </center>
 
@@ -54,7 +54,7 @@ tags: [ESG, TeamProject, ECO]
 ```
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/df95036b-c98f-44ef-b749-1b7f99b4ddbf" width="880" height="1440"/>
+<img src="https://github.com/cisco/openh264/assets/56510688/df95036b-c98f-44ef-b749-1b7f99b4ddbf" width="720" height=""/>
 <p><b>[그림4]. 생활환경 문제 카테고리</b></p>
 </center>
 
@@ -74,7 +74,7 @@ tags: [ESG, TeamProject, ECO]
  - 의류폐기물 발생 현황 : KOSIS(국가통계포털, 환경부)에서 제공하는 통계DB를 통해 해당년도에 발생한 의류폐기물 발생 현황 조사
 ```
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/bf871b81-8f4b-49d1-a32b-2eb2689aac9d" width="1200" height="760"/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/bf871b81-8f4b-49d1-a32b-2eb2689aac9d" width="720" height=""/>
  <p><b>[그림5]. 패스트 패션 시장 규모와 의류폐기물간의 관계</b></p>
 </center>
 
@@ -87,17 +87,17 @@ tags: [ESG, TeamProject, ECO]
 ```
 
 <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/7aac0074-66ac-49e1-84e6-97bc774df4e8" width="" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/7aac0074-66ac-49e1-84e6-97bc774df4e8" width="720" height=""/>
  <p><b>[그림6]. 폐기물 처리현황 생활 폐기물 Data Header(단위 : t)</b></p>
 </center>
 
 <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/9f565425-c074-42c1-9b81-33d2a3ac258f" width="" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/9f565425-c074-42c1-9b81-33d2a3ac258f" width="880" height=""/>
  <p><b>[그림7]. 폐기물 처리현황 사업장비배출시설계 생활계 폐기물 Data Heade(단위 : Kg)</b></p>
 </center>
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/ed6f5ed4-bb35-44e6-9c9c-5f414a6b2474" width="880" height="740"/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/ed6f5ed4-bb35-44e6-9c9c-5f414a6b2474" width="880" height=""/>
  <p><b>[그림8]. 재활용 폐기물 처리 현황(단위 : Kg)</b></p>
 </center>
 
@@ -108,7 +108,7 @@ tags: [ESG, TeamProject, ECO]
 ```
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/7582533e-c349-4860-b2a0-2c68c731e0f4" width="1200" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/7582533e-c349-4860-b2a0-2c68c731e0f4" width="880" height=""/>
  <p><b>[그림9]. QGIS로 시각화한 일일 의류 폐기물 발생량(단위 : t)</b></p>
 </center>
 
@@ -118,12 +118,12 @@ tags: [ESG, TeamProject, ECO]
 - "2022년 배달업 실태조사(한국교통안전공단)"에서 발표한 데이터를 참고하여 "배달원 한명이 하루 동안 처리하는 건수"x"박스의 용량"/"서울특별시에서 하루에 발생하는 의류폐기물 양" = 현재 혼합배출방식에서 재활용배출로 전환할 수 있는 비율 => 13% 의류 폐기물*(0.68(의류 폐기물 kg당 발생하는 Co2양) + 0.2(의류 폐기물 kg당 발생하는 Co2양)) => 6천5백만kg의 Co2(2분기 기준)*당시 탄소배출권 가격(단위 : kg) = 약 7억9천만원 추정치 계산을 진행하였습니다.
 ```
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/8278ff6f-b305-4869-b95d-24d68b8654fb" width="1200" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/8278ff6f-b305-4869-b95d-24d68b8654fb" width="720" height=""/>
  <p><b>[그림10]. 서비스 기대효과</b></p>
 </center>
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/e8fb4def-fed6-45a9-b7bd-0c1ba3d9c435" width="1200" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/e8fb4def-fed6-45a9-b7bd-0c1ba3d9c435" width="880" height=""/>
  <p><b>[그림11]. 박스 전개도</b></p>
 </center>
 
@@ -131,28 +131,28 @@ tags: [ESG, TeamProject, ECO]
 ### 3.4.1. UI, UX
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/d40b0d43-1dc8-462b-9f2b-ec7397484fe0" width="1200" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/d40b0d43-1dc8-462b-9f2b-ec7397484fe0" width="880" height=""/>
  <p><b>[그림12]. Reloathing Bag UI, UX</b></p>
 </center>
 
 ### 3.4.2. Service
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/e5179e42-af3a-4e75-a3ff-2428dced2835" width="1200" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/e5179e42-af3a-4e75-a3ff-2428dced2835" width="880" height=""/>
  <p><b>[그림13]. Reloathing Bag Service</b></p>
 </center>
 
 ### 3.4.3. Style-GAN을 이용한 Tag-Cloth AI 이미지 생성기
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/8b8795c5-42ad-43f4-9219-28a8616cd58f" width="" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/8b8795c5-42ad-43f4-9219-28a8616cd58f" width="880" height=""/>
  <p><b>[그림14]. AI Service</b></p>
 </center>
 
 # 4. Award Ceremony
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/be8604e3-a437-4ae8-a284-2ce752662d86" width="" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/be8604e3-a437-4ae8-a284-2ce752662d86" width="720" height=""/>
  <p><b>[그림15]. 장려상(한국환경산업기술원장상)</b></p>
 </center>
 
