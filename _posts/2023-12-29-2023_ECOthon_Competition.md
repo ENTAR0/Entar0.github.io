@@ -16,7 +16,7 @@ tags: [ESG, TeamProject, ECO]
 ```
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/6e389684-dbc5-4088-94b2-b6f60fdd1276" width="880" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/6e389684-dbc5-4088-94b2-b6f60fdd1276" width="720" height=""/>
 <p><b>[그림1]. 제공하는 환경데이터</b></p>
 </center>
 
@@ -32,14 +32,14 @@ tags: [ESG, TeamProject, ECO]
     - 분석 아이디어
     - 직접 분석
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/63da9137-2df3-427f-8082-a1a7359cb9fc" width="880" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/63da9137-2df3-427f-8082-a1a7359cb9fc" width="720" height=""/>
 <p><b>[그림2]. 환경데이터 활용 부문</b></p>
 </center>
 
 # 3. Competition Process
 공모전은 아래와 같이 총 5단계로 진행되었습니다.
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/1f49a34d-3e7b-4c60-8f0e-fe2ce641c8c3" width="880" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/1f49a34d-3e7b-4c60-8f0e-fe2ce641c8c3" width="720" height=""/>
 <p><b>[그림3]. 공모전 추진 일정</b></p>
 </center>
 
@@ -92,12 +92,12 @@ tags: [ESG, TeamProject, ECO]
 </center>
 
 <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/9f565425-c074-42c1-9b81-33d2a3ac258f" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/9f565425-c074-42c1-9b81-33d2a3ac258f" width="720" height=""/>
  <p><b>[그림7]. 폐기물 처리현황 사업장비배출시설계 생활계 폐기물 Data Heade(단위 : Kg)</b></p>
 </center>
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/ed6f5ed4-bb35-44e6-9c9c-5f414a6b2474" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/ed6f5ed4-bb35-44e6-9c9c-5f414a6b2474" width="720" height=""/>
  <p><b>[그림8]. 재활용 폐기물 처리 현황(단위 : Kg)</b></p>
 </center>
 
@@ -108,7 +108,7 @@ tags: [ESG, TeamProject, ECO]
 ```
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/7582533e-c349-4860-b2a0-2c68c731e0f4" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/7582533e-c349-4860-b2a0-2c68c731e0f4" width="720" height=""/>
  <p><b>[그림9]. QGIS로 시각화한 일일 의류 폐기물 발생량(단위 : t)</b></p>
 </center>
 
@@ -123,7 +123,7 @@ tags: [ESG, TeamProject, ECO]
 </center>
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/e8fb4def-fed6-45a9-b7bd-0c1ba3d9c435" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/e8fb4def-fed6-45a9-b7bd-0c1ba3d9c435" width="720" height=""/>
  <p><b>[그림11]. 박스 전개도</b></p>
 </center>
 
@@ -131,21 +131,21 @@ tags: [ESG, TeamProject, ECO]
 ### 3.4.1. UI, UX
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/d40b0d43-1dc8-462b-9f2b-ec7397484fe0" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/d40b0d43-1dc8-462b-9f2b-ec7397484fe0" width="720" height=""/>
  <p><b>[그림12]. Reloathing Bag UI, UX</b></p>
 </center>
 
 ### 3.4.2. Service
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/e5179e42-af3a-4e75-a3ff-2428dced2835" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/e5179e42-af3a-4e75-a3ff-2428dced2835" width="720" height=""/>
  <p><b>[그림13]. Reloathing Bag Service</b></p>
 </center>
 
 ### 3.4.3. Style-GAN을 이용한 Tag-Cloth AI 이미지 생성기
 
  <center>
- <img src="https://github.com/cisco/openh264/assets/56510688/8b8795c5-42ad-43f4-9219-28a8616cd58f" width="880" height=""/>
+ <img src="https://github.com/cisco/openh264/assets/56510688/8b8795c5-42ad-43f4-9219-28a8616cd58f" width="720" height=""/>
  <p><b>[그림14]. AI Service</b></p>
 </center>
 
