@@ -173,6 +173,7 @@ int moveDICE(DICE* d, int v) {
 	}
 }
 ```
+
 <center>
 <img src="https://github.com/cisco/openh264/assets/56510688/8b8734ef-12da-4aa4-ba13-ae12b318cb58" width="720" height=""/>
 <p><b>[그림1]. 주사위 움직임 구현</b></p>
