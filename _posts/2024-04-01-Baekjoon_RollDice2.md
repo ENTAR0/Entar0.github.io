@@ -45,6 +45,7 @@ tags: [CodingTest, C, Algorithm, Recursive]
 					<p>첫째 줄에 지도의 세로 크기 N, 가로 크기 M (2 ≤ N, M ≤ 20),&nbsp;그리고 이동하는 횟수 K (1 ≤ K ≤ 1,000)가 주어진다.&nbsp;</p>
 
 <p>둘째 줄부터 N개의 줄에 지도에 쓰여 있는 수가 북쪽부터 남쪽으로, 각 줄은 서쪽부터 동쪽 순서대로 주어진다. 지도의 각 칸에 쓰여 있는 수는 10 미만의 자연수이다.</p>
+					</div>
 </div>
 
 <div class="col-md-12">
@@ -54,6 +55,7 @@ tags: [CodingTest, C, Algorithm, Recursive]
 					</div>
 					<div id="problem_output" class="problem-text">
 					<p>첫째 줄에 각 이동에서 획득하는 점수의 합을 출력한다.</p>
+					</div>
 </div>
 
 
@@ -63,6 +65,7 @@ tags: [CodingTest, C, Algorithm, Recursive]
 1. 지도의 크기는 NxM이다. (2 ≤ N, M ≤ 20), 가장 왼쪽 위에 있는 칸의 좌표는 (1,1)이고 가장 오른쪽 아래에있는 좌표는 (N,M)이다.
 2. 정육면체 주사위가 지도(1, 1)에 놓여져있으며 윗면이 1, 동쪽을 방향이 3인 상태이다. 주사위는 이동할때 정해진 방향으로 한칸 굴러간다.
 3. 주사위는 다음과 같은 조건을 통해 이동 방향을 결정한다. <b>(A : 주사위 아랫면의 값, B : 지도[x,y]에 있는 정수 값)</b>
+
 <ol>
 	<li>
 	<ul>
