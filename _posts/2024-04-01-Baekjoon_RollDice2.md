@@ -36,24 +36,14 @@ tags: [CodingTest, C, Algorithm, Recursive]
 
   </div>
 
-<div class="col-md-12">
-					<section id="input" class="problem-section">
-					<div class="headline">
-					<h2>입력</h2>
-					</div>
-					<div id="problem_input" class="problem-text">
-					<p>첫째 줄에 지도의 세로 크기 N, 가로 크기 M (2 ≤ N, M ≤ 20),&nbsp;그리고 이동하는 횟수 K (1 ≤ K ≤ 1,000)가 주어진다.&nbsp;</p>
+## 입력
 
-<p>둘째 줄부터 N개의 줄에 지도에 쓰여 있는 수가 북쪽부터 남쪽으로, 각 줄은 서쪽부터 동쪽 순서대로 주어진다. 지도의 각 칸에 쓰여 있는 수는 10 미만의 자연수이다.</p>
-					</div>
+첫째 줄에 지도의 세로 크기 N, 가로 크기 M (2 ≤ N, M ≤ 20),&nbsp;그리고 이동하는 횟수 K (1 ≤ K ≤ 1,000)가 주어진다.&nbsp;
 
-<div class="col-md-12">
-					<section id="output" class="problem-section">
-					<div class="headline">
-					<h2>출력</h2>
-					</div>
-					<div id="problem_output" class="problem-text">
-					<p>첫째 줄에 각 이동에서 획득하는 점수의 합을 출력한다.</p>
+둘째 줄부터 N개의 줄에 지도에 쓰여 있는 수가 북쪽부터 남쪽으로, 각 줄은 서쪽부터 동쪽 순서대로 주어진다. 지도의 각 칸에 쓰여 있는 수는 10 미만의 자연수이다.
+
+## 출력
+첫째 줄에 각 이동에서 획득하는 점수의 합을 출력한다.
 
 
 # 2. 문제 해석
