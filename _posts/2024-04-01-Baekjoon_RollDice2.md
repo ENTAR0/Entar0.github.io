@@ -257,16 +257,57 @@ int checkTile(MAP m, int x, int y, int value) {
 <p><b>[그림5]. 7번의 이동횟수를 가질 때 중복 체크</b></p>
 </center>
 
-## 3.. 전체 소스코드
+### 3.4.3. Call-by-refer 변경
+
+함수 한번 콜하면 check값을 다시 초기화 시켜줘야해서 메인에서 함수호출할때마다 초기화 함수도 같이 불러줬습니다.
+
+```c
+
+int checkTile(MAP* m, int x, int y, int value) {
+	int total = 1;
+	int dr[] = { -1,0,1,0 };
+	int dc[] = { 0,1,0,-1 };
+	m->CRD[y][x].check = 1;
+	//printf("checktile(Dice:%d) x: %d, y: %d\n",value,x,y);
+	//printf("MAP value : %d\n",m->CRD[y][x].value);
+	for (int i = 0; i < 4; i++) {
+		int newRow = y + dr[i];
+		int newCol = x + dc[i];
+		//printf("newX : %d newY: %d MAP value : %d\n",newCol,newRow,m->CRD[newRow][newCol].value);
+		//printf("condition 1 : %d\n",isValid(newRow, newCol));
+		//printf("condition 2 : %d\n",(m->CRD[newRow][newCol].value == value));
+		//printf("condition 3 : %d\n",(m->CRD[newRow][newCol].check==0));
+		if (isValid(newRow, newCol) && m->CRD[newRow][newCol].value == value && m->CRD[newRow][newCol].check == 0) {
+			//printf("checkTile\n");
+			total += checkTile(m, newCol, newRow, value);
+		}
+	}
+	return total;
+}
+```
+
+```c
+for(int i = 0; i<R; i++)
+{ 
+	for (int j = 0; j < C; j++)
+	{
+		m.CRD[i][j].check = 0;
+	}
+}
+```
+
+
+## 4. 전체 소스코드
+
+근데 결과는 틀렸습니다. 예제에 대해서도 모두 같은 출력을 내고 시간제한에 걸리지도 않는데 어디서 틀렸는지 모르겠네요.
 
 ```c
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define R 21
 #define C 21
-#define MAX_N 21
-#define MAX_M 21
 typedef struct {
 	int value;
 	int check;
@@ -282,30 +323,39 @@ typedef struct {
 	int Ypos;
 } DICE;
 
+int MAX_N = R;
+int MAX_M = C;
+
 int isValid(int row, int col) {
-	return (row >= 1 && row < 5 && col >= 1 && col < 6);
+	return (row >= 1 && row < MAX_N && col >= 1 && col < MAX_M);
 }
 
-int checkTile(MAP m, int x, int y, int value) {
+int checkTile(MAP* m, int x, int y, int value) {
 	int total = 1;
 	int dr[] = { -1,0,1,0 };
 	int dc[] = { 0,1,0,-1 };
-	m.CRD[y][x].check = 1;
-	printf("checktile(Dice:%d) x: %d, y: %d\n",value,x,y);
-	printf("MAP value : %d\n",m.CRD[y][x].value);
+	m->CRD[y][x].check = 1;
+	//printf("checktile(Dice:%d) x: %d, y: %d\n",value,x,y);
+	//printf("MAP value : %d\n",m->CRD[y][x].value);
 	for (int i = 0; i < 4; i++) {
 		int newRow = y + dr[i];
 		int newCol = x + dc[i];
-		printf("newX : %d newY: %d MAP value : %d\n",newCol,newRow,m.CRD[newRow][newCol].value);
-		printf("condition 1 : %d\n",isValid(newRow, newCol));
-		printf("condition 2 : %d\n",(m.CRD[newRow][newCol].value == value));
-		printf("condition 3 : %d\n",(m.CRD[newRow][newCol].check==0));
-		if (isValid(newRow, newCol) && m.CRD[newRow][newCol].value == value && m.CRD[newRow][newCol].check == 0) {
-			printf("checkTile\n");
+		//printf("newX : %d newY: %d MAP value : %d\n",newCol,newRow,m->CRD[newRow][newCol].value);
+		//printf("condition 1 : %d\n",isValid(newRow, newCol));
+		//printf("condition 2 : %d\n",(m->CRD[newRow][newCol].value == value));
+		//printf("condition 3 : %d\n",(m->CRD[newRow][newCol].check==0));
+		if (isValid(newRow, newCol) && m->CRD[newRow][newCol].value == value && m->CRD[newRow][newCol].check == 0) {
+			//printf("checkTile\n");
 			total += checkTile(m, newCol, newRow, value);
 		}
 	}
 	return total;
+}
+
+int generateRandom(int range1, int range2) {
+	int random = 0;
+	random = rand() % ((range2 - range1) + 1) + range1;
+	return random;
 }
 
 void rollEast(DICE* d) {
@@ -343,7 +393,7 @@ void rollNorth(DICE* d) {
 }
 
 int moveDICE(DICE* d, int v) {
-	printf("(%d, %d)에서 %d방향으로 움직였습니다.\n", d->Xpos, d->Ypos, v);
+	//printf("(%d, %d)에서 %d방향으로 움직였습니다.\n", d->Xpos, d->Ypos, v);
 	
 	switch (v) {
 	case 0:
@@ -387,11 +437,17 @@ int moveDICE(DICE* d, int v) {
 		fprintf(stderr, "Error\n");
 		break;
 	}
+
 }
 
 #define MAX_VECTOR_SIZE 4
-//해야될 거 점수계산식(지뢰찾기랑 유사), 맵끝 확인 후 벡터 반대 전환
 int main() {
+
+	clock_t start, end;
+	double cpu_time_used;
+
+	start = clock(); // 프로그램 실행 시작 시간 기록
+
 	// Parameter Set phase
 	int N, M; //N 세로, M 가로
 	MAP m;
@@ -422,10 +478,20 @@ int main() {
 			scanf("%d", &m.CRD[i][j].value);
 		}
 	}
+	MAX_N = N+1;
+	MAX_M = M+1;
 	// move phase
 	moveDICE(d, vector);
 	//printf("X : %d, Y : %d\n", d->Xpos, d->Ypos);
-	score += checkTile(m, d->Xpos, d->Ypos, m.CRD[d->Ypos][d->Xpos].value);
+	score += checkTile(&m, d->Xpos, d->Ypos, m.CRD[d->Ypos][d->Xpos].value);
+	//initialize m.CRD.check value
+	for(int i = 0; i<R; i++)
+	{ 
+		for (int j = 0; j < C; j++)
+		{
+			m.CRD[i][j].check = 0;
+		}
+	}
 	for (int k = 1; k < movement; k++) {
 		//set vector
 		if (d->value[3][1] > m.CRD[d->Ypos][d->Xpos].value)
@@ -437,12 +503,25 @@ int main() {
 		//move
 		vector = moveDICE(d, vector);
 		//Calculate Score
-		score += checkTile(m, d->Xpos, d->Ypos, m.CRD[d->Ypos][d->Xpos].value) * m.CRD[d->Ypos][d->Xpos].value;
-		printf("%d번째 점수 : %d\n", k, score);
+		score += checkTile(&m, d->Xpos, d->Ypos, m.CRD[d->Ypos][d->Xpos].value) * m.CRD[d->Ypos][d->Xpos].value;
+		for (int i = 0; i < R; i++)
+		{
+			for (int j = 0; j < C; j++)
+			{
+				m.CRD[i][j].check = 0;
+			}
+		}
+		//printf("%d번째 점수 : %d\n", k, score);
 	}
 	//printf("Vector : %d\n", vector);
-	printf("주사위 전개도\n%d\n%d %d %d\n%d\n%d\n", d->value[0][1], d->value[1][0], d->value[1][1], d->value[1][2], d->value[2][1], d->value[3][1]);
+	//printf("주사위 전개도\n%d\n%d %d %d\n%d\n%d\n", d->value[0][1], d->value[1][0], d->value[1][1], d->value[1][2], d->value[2][1], d->value[3][1]);
 	printf("%d", score);
+	end = clock(); // 프로그램 실행 종료 시간 기록
+
+	cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC; // 실행 시간 계산
+
+	printf("프로그램 실행 시간: %f 초\n", cpu_time_used);
+
 	return 0;
 }
 ```
