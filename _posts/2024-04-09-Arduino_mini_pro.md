@@ -64,10 +64,7 @@ tags: [TeamProject, Arduino, Sensor, GYRO]
 <p><b>[그림2]. MPU6050</b></p>
 </center>
 
-## 3.1 Selection of Project Topic
-
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/b385df02-7046-4977-8885-bbd12ac8492e" width="720" height=""/>
-<p><b>[그림2]. LCP</b></p>
+<img src="https://github.com/cisco/openh264/assets/56510688/62a33cdb-067e-4bed-9069-9a02c532b10f" width="" height=""/>
+<p><b>[그림2]. MPU6050</b></p>
 </center>
-
