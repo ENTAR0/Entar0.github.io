@@ -52,11 +52,14 @@ tags: [TeamProject, Arduino, Sensor, GYRO]
 
 <center>
 <img src="https://github.com/cisco/openh264/assets/56510688/29a63d1e-dc60-42f1-8989-cc6802f16e3b" width="720" height=""/>
-<p><b>[그림2]. ARDUINO PROMINI</b></p>
+<p><b>[그림2]. ARDUINO PRO MINI</b></p>
 </center>
 
 ## 2.2. mpu6050
 강아지의 앞발 움직임을 통해 현재 무슨 동작을 취하고 있는지 인식하기 위해서 앞발의 3차원 움직임을 추적할 자이로센서를 선택했습니다.
+
+해당 센서는 전원 연결 후 전원을 관리하는 Register값을 수정해야합니다. Register 당 1Byte로 데이터 통신합니다.
+
 
 
 <center>
@@ -64,7 +67,146 @@ tags: [TeamProject, Arduino, Sensor, GYRO]
 <p><b>[그림2]. MPU6050</b></p>
 </center>
 
+
+
+```Arduino
+#include <Wire.h>
+
+void setup() {
+    // Initialize the I2C communication
+    Wire.begin();
+    
+    // Begin transmission to the device with address 0x68
+    Wire.beginTransmission(0x68);
+    
+    // Specify the register address (107) to write to
+    Wire.write(107);
+    
+    // Write the value 0 to the specified register
+    Wire.write(0);
+    
+    // End the transmission
+    Wire.endTransmission();
+}
+
+void loop() {
+    // Your loop code goes here
+}
+```
+
 <center>
 <img src="https://github.com/cisco/openh264/assets/56510688/62a33cdb-067e-4bed-9069-9a02c532b10f" width="" height=""/>
-<p><b>[그림2]. MPU6050</b></p>
+<p><b>[그림3]. MPU6000-Register-Map 107</b></p>
 </center>
+
+MPU6050 센서는 2G, 4G, 8G, 16G의 중력가속도를 검출 할 수 있습니다. 추가로 각가속도는 250deg/sec ~ 2000deg/sec로 시간당 측정되는 최대 각도값입니다.
+
+- 각가속도 센서 : [250 deg/sec -> (Raw-Data)/131] ~ [2000 deg/sec ->(Raw-Data)/16.4]의 데이터를 보여줍니다. IC2 통신으로 받은 Raw-Data 값을 설정된 환경에 따라 {131, 65.5, 32.8, 16.4}로 나누면 각가속도 값을 측정하여 얻을 수 있습니다.
+
+- 중력가속도 센서 : [2G -> (Raw-Data)/16384] ~ [16G -> (Raw-Data)/2048]의 데이터를 보여줍니다. 설정된 환경 값에 따라 단위 가속도 G의 Raw-Data값을 보여주는 것입니다. 데이터를 {16384, 8192, 4096, 2048}로 나눠주면 해당값이 1G입니다.
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/67ba48f2-2e01-4929-97fb-0f2ea055f6f0" width="720" height=""/>
+<p><b>[그림4]. GYROSCOPE Spec</b></p>
+</center>
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/98a41c39-2a29-4978-a5c0-68e063e4579a" width="720" height=""/>
+<p><b>[그림5]. Accelerometer Spec</b></p>
+</center>
+
+센서 감도에 따른 단위 설정값을 알았으니 Register-27를 참고해 어떤 설정값을 사용해야하는지 살펴봅니다. 이번 테스트에서는 가장 작은 감도의 [250 deg/sec], [2G]로 설정할겁니다.
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/9f368d83-1a1b-4202-97d0-d3c578b7502d" width="720" height=""/>
+<p><b>[그림6]. MPU6000-Register-Map 27</b></p>
+</center>
+
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/bb45c76b-82f4-4824-9ea0-fdbe85bf870b" width="720" height=""/>
+<p><b>[그림7]. MPU6000-Register-Map 28</b></p>
+</center>
+
+```Arduino
+#include <Wire.h>
+
+void setup() {
+    Wire.begin();
+    Wire.beginTransmission(0x68);
+    Wire.write(27);
+    Wire.wrtie(0);
+    Wire.endTransmission();
+    Wire.beginTransmission(0x68);
+    Wire.write(28);
+    Wire.write
+}
+```
+
+59번 ~ 64번 레지스터의 값으로부터 X, Y, Z축에 감지된 가속도 값을 얻을 수 있습니다. [15:8],[7:0]은 비트 자리수를 의미 합니다.
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/20fab824-293d-47d3-91a3-60d8f01ac502" width="720" height=""/>
+<p><b>[그림8]. MPU6000-Register-Map 59 to 64</b></p>
+</center>
+
+67번 ~ 72번 레지스터의 값으로부터 X, Y, Z축의 각가속도 값을 얻을 수 있습니다.
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/a1c6be20-47fb-4212-b5a1-82df4b841d6d" width="720" height=""/>
+<p><b>[그림9]. MPU6000-Register-Map 67 to 72</b></p>
+</center>
+
+## 2.3. ESP8266-6(Wifi Chip)
+
+```Arduino
+#include <ESP8266_HardSer.h>
+#include <BlynkSimpleShieldEsp8266_HardSer.h>
+
+#define EspSerial Serial
+
+
+ESP8266 wifi(EspSerial);
+
+// You should get Auth Token in the Blynk App.
+// Go to the Project Settings (nut icon).
+char auth[] = "your_Token";
+
+
+
+void setup()
+{
+ 
+  Serial.begin(9600);
+  delay(10);
+  EspSerial.begin(9600);
+  delay(10);
+
+  Blynk.begin(auth, wifi, "ssid", "pass");
+  delay(10); 
+
+  while (Blynk.connect() == false) {
+  }
+
+}
+
+void loop()
+{
+Blynk.run();
+}
+```
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/5a2bdcbd-0dd9-4575-90e6-d5ee8f3a4646" width="720" height=""/>
+<p><b>[그림10]. ESP8266-6 Pinout</b></p>
+</center>
+
+
+
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/97c5eb59-41e1-4184-b00b-38b6e815283b" width="720" height=""/>
+<p><b>[그림11]. ESP8266-6 Circuit</b></p>
+</center>
+
+## 2.4. Pulse Sensor Heart Rate Sensor
