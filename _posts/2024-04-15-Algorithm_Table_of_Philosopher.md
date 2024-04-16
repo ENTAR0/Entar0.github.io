@@ -15,7 +15,7 @@ As spaghetti is difficult to serve and eat with a single chopstick, it is assume
 with two chopsticks. The philosopher can only use the chopstick on his or her immediate left or right.
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/9ffec174-9c94-4aff-8457-93e26d5d3a0c" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/9ffec174-9c94-4aff-8457-93e26d5d3a0c" width="720" height=""/>
 <p><b>[그림1]. 식사하는 철학자들 </b></p>
 </center>
 
@@ -47,12 +47,12 @@ If there is wating process or thread, waking up it
 ```
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/fd3cdb88-ab24-4957-9bb1-bcebeed59cf3" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/fd3cdb88-ab24-4957-9bb1-bcebeed59cf3" width="720" height=""/>
 <p><b>[그림 2]. Semaphore Operations </b></p>
 </center>
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/a976e552-00d4-45b7-a078-b71205b13255" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/a976e552-00d4-45b7-a078-b71205b13255" width="720" height=""/>
 <p><b>[그림 3]. Semaphore Operations Pesudo-Code </b></p>
 </center>
 
@@ -69,12 +69,12 @@ Unlock(해제) 또는 Release(해제): 이 연산은 뮤텍스를 해제하여 �
 
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/3f29fd07-ec44-4c5a-b369-fb1e8b4016c9" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/3f29fd07-ec44-4c5a-b369-fb1e8b4016c9" width="720" height=""/>
 <p><b>[그림 4]. Mutex Example </b></p>
 </center>
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/2bc3bd93-a9fc-4341-be28-6d783eacb198" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/2bc3bd93-a9fc-4341-be28-6d783eacb198" width="720" height=""/>
 <p><b>[그림 5]. thread와 Limited-Buffer Communication program  </b></p>
 </center>
 

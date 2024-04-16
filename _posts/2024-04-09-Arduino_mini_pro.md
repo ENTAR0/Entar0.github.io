@@ -63,7 +63,7 @@ tags: [TeamProject, Arduino, Sensor, GYRO]
 
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/1dd549e8-e017-4fc3-9f92-462a81c5faae" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/1dd549e8-e017-4fc3-9f92-462a81c5faae" width="720" height=""/>
 <p><b>[그림2]. MPU6050</b></p>
 </center>
 
@@ -95,7 +95,7 @@ void loop() {
 ```
 
 <center>
-<img src="https://github.com/cisco/openh264/assets/56510688/62a33cdb-067e-4bed-9069-9a02c532b10f" width="" height=""/>
+<img src="https://github.com/cisco/openh264/assets/56510688/62a33cdb-067e-4bed-9069-9a02c532b10f" width="720" height=""/>
 <p><b>[그림3]. MPU6000-Register-Map 107</b></p>
 </center>
 
