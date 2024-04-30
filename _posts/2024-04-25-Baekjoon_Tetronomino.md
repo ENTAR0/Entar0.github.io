@@ -76,6 +76,8 @@ tags: [CodingTest, Algorithm, Graph, Tetris]
 
 근데 270도 회전한것도 해줘야하는지 잘 모르겠어서 일단 180도까지만 진행해보았습니다.
 
+* 추가 아이디어로 보드 회전 시 정 중앙값은 고정되므로 해당 값을 기준으로 회전하려 했는데 이거는 정방행렬일때만 가능한 아이디어이므로 기각했습니다.
+
 <center>
 <img src="https://github.com/cisco/openh264/assets/56510688/c588e71d-42ee-443d-9e47-175bc57dd3b0" width="720" height=""/>
 <p><b>[그림4]. Rotating Board </b></p>
@@ -107,5 +109,188 @@ C는 평균값 이상의 칸의 갯수
 ```
 
 # 4. 소스코드
+
+```c
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define TETRO_SIZE 4
+#define ROWS 5
+#define COLS 5
+//(4 ≤ N, M ≤ 500)
+#define N 500
+#define M 500
+
+typedef struct {
+    int value;
+    int isUpperThanAver;
+}TILE;
+
+typedef struct{
+	TILE tile[N][M];
+}BOARD;
+
+typedef struct {
+	int array[TETRO_SIZE]; //배열의 Value 중 0은 Right, 1은 Left뜻함.
+}TETRO;
+
+typedef struct Node {
+    int data;
+    struct Node* right;
+    struct Node* left;
+} Node;
+
+// 그래프의 노드 생성 함수
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->right = NULL;
+    newNode->left = NULL;
+    return newNode;
+}
+
+// 배열을 그래프로 변환하는 함수
+Node* arrayToGraph(int arr[][M]) {
+    Node* graph[ROWS][M];
+
+    // 각 배열 요소를 그래프 노드로 변환
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < M; j++) {
+            graph[i][j] = createNode(arr[i][j]);
+        }
+    }
+
+    // 이웃한 노드들 간의 연결 설정
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < M; j++) {
+            if (i < ROWS - 1)
+                graph[i][j]->left = graph[i + 1][j];
+            if (j < M - 1)
+                graph[i][j]->right = graph[i][j + 1];
+        }
+    }
+
+    // 그래프의 시작 노드 반환
+    return graph[0][0];
+}
+
+// 그래프를 90도 회전하는 함수
+Node* rotateGraph(Node* graph) {
+    Node* newGraph[M][N];
+
+    // 새로운 그래프 생성
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            newGraph[i][j] = createNode(0); // 초기화
+        }
+    }
+
+    // 그래프의 노드를 회전하여 새로운 그래프에 설정
+    Node* currentNode = graph;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            newGraph[j][N - 1 - i]->data = currentNode->data;
+            currentNode = currentNode->right;
+        }
+        currentNode = currentNode->left;
+    }
+
+    // 이웃한 노드들 간의 연결 설정
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            if (i < M - 1)
+                newGraph[i][j]->right = newGraph[i + 1][j];
+            if (j < N - 1)
+                newGraph[i][j]->left = newGraph[i][j + 1];
+        }
+    }
+
+    // 새로운 그래프의 시작 노드 반환
+    return newGraph[0][0];
+}
+
+// 그래프를 배열로 변환하여 출력하는 함수
+void printGraph(Node* graph) {
+    Node* currentRow = graph;
+
+    while (currentRow != NULL) {
+        Node* currentNode = currentRow;
+        while (currentNode != NULL) {
+            printf("%d ", currentNode->data);
+            currentNode = currentNode->right;
+        }
+        printf("\n");
+        currentRow = currentRow->left;
+    }
+}
+void initBoard(BOARD* b)
+{
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < M; j++)
+        {
+            b->tile[N][M].isUpperThanAver = 0;
+            b->tile[N][M].value = 0;
+        }
+    }
+}
+
+int main()
+{
+    //init phase
+	BOARD* B;
+	B = (BOARD*)malloc(sizeof(BOARD));
+    void initBoard(B);
+	int n=0, m=0;
+    int minValue, maxValue = 0; // tile의 최소, 최대값
+    int max = 0; //블럭이 놓인 tile value의 최대값
+    int cmax = 0; //블럭이 놓인 tile value의 현재 최대값
+    //input phase
+	scanf("%d %d", &n, &m);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; i < m; j++)
+		{
+			scanf("%d ", &B->tile[j][i].value);
+            // 최소값과 최대값 갱신
+            if (i == 0 && j == 0) // 첫 번째 값으로 초기화
+            { 
+                minValue = maxValue = B->tile[j][i].value;
+            }
+            else 
+            {
+                if (B->tile[j][i].value < minValue)
+                    minValue = B->tile[j][i].value;
+                if (B->tile[j][i].value > maxValue)
+                    maxValue = B->tile[j][i].value;
+            }
+		}
+	}
+    int averageValue = (maxValue + minValue) / 2;
+    //평균값보다 높은 정수 타일에 표시
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; i < m; j++)
+        {
+            if (B->tile[j][i].value > averageValue)
+                B->tile[j][i].isUpperThanAver = 1;
+        }
+    }
+    //Compare phase
+    while (1)
+    {
+        max = searchBoard(B, T);
+        if (max > cmax)
+            cmax = max;
+    }
+    //serach phase
+    
+
+
+
+	free(B);
+	return 0;
+}
+```
 
 코드 작성 중..
