@@ -190,10 +190,258 @@ set도 캐스팅이 가능합니다.
 Set안에 아이템 갯수를 세기위한 <code clas="code ">.count()</code> function
 
 ```Kotlin
+val readOnlyFruit = setOf("apple", "banana", "cherry", "cherry")
+println("This is set has ${readOnlyFruit.count()} items")
+```
 
+set안에 item이 존재하는지 확인할때는 <code clas="code ">in</code>연산자를 사용합니다.
+
+```Kotlin
+val readOnlyFruit = setOf("apple", "banana", "cherry", "cherry")
+println("banana" in readOnlyFruit)
+//true
+```
+
+items을 mutable set에 추가하거나 삭제할때는 <code clas="code ">.add()</code>와 <code clas="code ">.remove()</code> extension을 사용합니다.
+
+val fruit: MutableSet<String> = mutableSetOf("apple", "banana", "cherry", "cherry")
+fruit.add("dragonfruit")
+println(fruit)
+
+fruit.remove("dragonfruit")
+println(fruit)
+
+### Map
+
+Map은 dictionary 타입과 같이 key-value정보를 쌍으로 갖고 있습니다. key를 참조해서 value에 접근할 수 있습니다.
+
+* Kotlin에서는 key가 unique한 특성을 가지고 value는 아무거나 지정가능합니다.
+* Map 자료형안에서 value를 복제하는것도 가능합니다.
+
+- To create a read-only map(<code clas="code ">Map</code>), use the <code clas="code ">mapOf()</code> function.
+
+- To create a mutable map(<code clas="code ">MutableMap</code>), use the <code clas="code ">mutableMapOf</code> function.
+
+Kotlin에서는 item을 만들때 컴파일러가 항목의 타입을 추정해서 저장합니다. 타입을 명시하기 위해서는 key와 value 값을 <code clas="code "><></code>안에 명시해주면 됩니다.
+
+```Kotlin
+val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println(readOnlyJuiceMenu)
+//{apple=100, kiwi=190, orange=100}
+
+//Mutable map with explicit type declaration
+val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println(juiceMenu)
+```
+
+* Map도 캐스팅 가능합니다.
+
+value에 접근하기 위해서는 <code clas="code ">[]</code>안에 쌍을 이루는 key를 적어 접근합니다.
+
+```Kotlin
+val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println("The value of apple juice is : ${readOnlyJuiceMenu["apple"]})
+// The value of apple juice is : 100
+```
+
+items을 mutable map에 추가하거나 삭제할때는 <code clas="code ">.put()</code>와 <code clas="code ">.remove()</code> extension을 사용합니다.
+
+```Kotlin
+val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+juiceMenu.put("coconut", 150)
+println(juiceMenu)
+// {apple=100, kiwi=190, orange=100, coconut=150}
+
+juiceMenu.remove("orange")
+println(juiceMenu)
+// {apple=100, kiwi=190, coconut=150}
+```
+
+map안에 이미 key가 존재하는지 확인할 때는 <code clas="code ">.containskey()</code> extension를 사용합니다.
+```Kotlin
+val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println(readOnlyJuiceMenu.containsKey("kiwi"))
+//true
+```
+
+key와 value를 collection으로 추출할때는 <code clas="code ">keys</code>와 <code clas="code ">values</code> properties를 사용합니다.
+
+```Kotlin
+val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println(readOnlyJuiceMenu.keys)
+// [apple, kiwi, orange]
+println(readOnlyJuiceMenu.values)
+// [100, 190, 100]
+```
+
+map안에 key와 value에 대해 확인하고 싶을 때는 <code clas="code ">in</code>연산자 사용합니다.
+
+```Kotlin
+val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+println("orange" in readOnlyJuiceMenu.keys)
+//true
+println(200 in readOnlyJuiceMenu.values)
+//false
 ```
 
 # 4장. Control Flow
+
+### Conditional expressions
+
+#### if
+
+```
+val d: Int
+val check = true
+
+if(check) {
+    d = 1
+}
+else {
+    d = 2
+}
+
+println(d)
+```
+
+Kotlin에서는 ternary operator(<code clas="code ">condition ? then : else</code>)가 없는 대신 다른 표현법이 있습니다.
+
+```
+val a = 1
+val b = 2
+
+println(if(a > b) a else b) //Returns a value : 2
+```
+
+#### When
+
+switch-case문과 비슷합니다.
+
+```Kotlin
+val obj = "Hello"
+
+when (obj) {
+    //Checks whether obj equals to "1"
+    "1" -> println("One")
+    //Checks whether obj equals to "Hello"
+    "Hello" -> println("Greeting")
+    //Default statement
+    else -> println("Unknown")
+}
+```
+
+또한 <code clas="code ">When</code>문법은 변수에 할당이 가능합니다.
+
+```Kotlin
+val obj = "Hello"    
+
+val result = when (obj) {
+    // If obj equals "1", sets result to "one"
+    "1" -> "One"
+    // If obj equals "Hello", sets result to "Greeting"
+    "Hello" -> "Greeting"
+    // Sets result to "Unknown" if no previous condition is satisfied
+    else -> "Unknown"
+}
+println(result)
+// Greeting
+```
+
+또한 <code clas="code ">When</code>문법은 불 표현식과 연계해서도 사용 가능합니다.
+
+```Kotlin
+val temp = 18
+
+val description = when {
+    // If temp < 0 is true, sets description to "very cold"
+    temp < 0 -> "very cold"
+    // If temp < 10 is true, sets description to "a bit cold"
+    temp < 10 -> "a bit cold"
+    // If temp < 20 is true, sets description to "warm"
+    temp < 20 -> "warm"
+    // Sets description to "hot" if no previous condition is satisfied
+    else -> "hot"             
+}
+println(description)
+// warm
+```
+
+### Ranges
+
+4가지 표현식이 존재합니다.
+
+1. <code clas="code ">..</code> Operator : <code clas="code ">1..4</code> == <code clas="code ">1, 2, 3, 4</code>
+2. <code clas="code ">..<</code> Operator : <code clas="code ">1..<4</code> == <code clas="code ">1, 2, 3</code>
+3. <code clas="code ">dwonTo</code> : <code clas="code ">4 downTo 1</code> == <code clas="code ">4, 3, 2, 1</code>
+4. <code clas="code ">step</code> : <code clas="code ">1..5 step 2</code> == <code clas="code ">1, 3, 5</code>
+
+<code clas="code ">Char</code>도 ranges 가능합니다.
+
+- <code clas="code ">'a'..'d'</code> == <code clas="code ">'a', 'b', 'c', 'd'</code>
+- <code clas="code ">'z' downTo 's' step 2</code> == <code clas="code ">'z', 'x', 'v', 't'</code>
+
+### Loops
+
+루프 중 가장 흔하게 사용하는것은 <code clas="code ">for</code>와 <code clas="code ">While</code>입니다.
+
+#### For
+
+```Kotlin
+for (number in 1..5) {
+    printf(number)
+}
+//12345
+```
+
+```Kotlin
+//Collections
+val cakes = listOf("carrot", "cheese", "chocolate")
+
+for (cake in cakes) {
+    println("Yummy, it's $cake cake!")
+}
+// Yummy, it's a carrot cake!
+// Yummy, it's a cheese cake!
+// Yummy, it's a chocolate cake!
+```
+
+#### while
+<code clas="code ">while</code>은 두가지 방법으로 쓰입니다.
+
+- To execute a code block while a conditional expression is true. (<code clas="code ">while</code>)
+
+- To execute the code block first and then check the conditional expression. (<code clas="code ">do-while</code>)
+
+```Kotlin
+var cakesEaten = 0
+while (cakesEaten < 3) {
+    println("Eat a cake")
+    cakesEaten++
+}
+// Eat a cake
+// Eat a cake
+// Eat a cake
+```
+
+```Kotlin
+var cakesEaten = 0
+var cakesBaked = 0
+while (cakesEaten < 3) {
+    println("Eat a cake")
+    cakesEaten++
+}
+do {
+    println("Bake a cake")
+    cakesBaked++
+} while (cakesBaked < cakesEaten)
+// Eat a cake
+// Eat a cake
+// Eat a cake
+// Bake a cake
+// Bake a cake
+// Bake a cake
+```
+
 # 5장. Functions
 # 6장. Classes
 # 7장. Null Safety
