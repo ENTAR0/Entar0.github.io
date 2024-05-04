@@ -13,7 +13,7 @@ tags: [TeamProject, Arduino, Sensor, GYRO]
 2. mpu6050
 3. ESP8266-6
 4. 3.3V <-> 5V 변압기(logic level converter)
-5. 100m 구부림 휨 압력센서 500G
+5. 100mm 구부림 휨 압력센서 500G
 6. Pulse Sensor Heart Rate Sensor
 7. NEO-6M GY-GPS6MV2
 ```
@@ -209,4 +209,195 @@ Blynk.run();
 <p><b>[그림11]. ESP8266-6 Circuit</b></p>
 </center>
 
-## 2.4. Pulse Sensor Heart Rate Sensor
+## 2.4. 100mm 구부림 휨 압력센서 500G
+
+|||
+|------|------|
+|길이|100mm|
+|최대 하중|10kg|
+|저항|100MΩ|
+|동작 전압|DC 3.3V|
+|응답 시간|<1ms|
+|복구 시간|<15ms|
+|동작 온도|-20도씨 ~ 60도씨|
+
+```Arduino
+int FlexPin = A0; // 센서값을 읽기 위해 아날로그핀 0번을 FlexPin에 지정한다.
+
+void setup()
+{
+    Serial.begin(9600); // 센서값을 읽기 위해 시리얼 모니터를 사용할 것을 설정.
+}
+
+void loop()
+{
+    int FlexVal; // 센서값을 저장할 변수
+    FlexVal = analogRead(FlexPin); // 아날로그를 입력 받음 (0~1023)
+
+    Serial.print("sensor: "); // sensor: 라는 텍스트를 프린트한다.
+    Serial.println(FlexVal); // println은 줄바꿈 명령이다. flexVal의 값을 출력한다.
+
+    delay(500);
+}
+```
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/de867130-99ff-45f7-b411-8d07d3edce0c" width="720" height=""/>
+<p><b>[그림12]. 플렉시블 압력센서 회로도</b></p>
+</center>
+
+## 2.5. Pulse Sensor Heart Rate Sensor
+
+- DC 3.3V ~ 5V에서 작동합니다.
+- <4mA이상 사용합니다. 
+
+
+```arduino
+int sensorPin= A0;
+int startTime=0;
+int count=0;
+int count1=1;
+int beat=0;
+unsigned int timeS=0;
+int hearTbeat=0;
+
+void setup() 
+{
+    // put your setup code here, to run once:
+    Serial.begin(9600);
+    pinMode(2,OUTPUT);
+    pinMode(sensorPin,INPUT);
+}
+
+void loop() 
+{
+    int sensorData=analogRead(sensorPin);
+    if(sensorData>512)
+    {
+        count=count+1;
+        beat=beat+1;
+        delay(100);
+        if(count1==1)
+    { 
+    startTime=millis();
+    count1=count1+1;
+    }
+
+    }
+    timeS= millis()-startTime;
+    if((timeS>9500)&(timeS<11500))
+    { 
+        hearTbeat=count*6;
+        delay(5000);
+        startTime=0;
+        count=0;
+        timeS=0;
+        beat=0;
+        count1=1;
+    }
+    Serial.print("Heart Beat:");
+    Serial.println(hearTbeat);
+}
+```
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/a8c1be50-f8cb-49a0-b201-f13c311e5cb1" width="720" height=""/>
+<p><b>[그림13]. 심장 박동 센서 Pin-out</b></p>
+</center>
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/60682ab5-dbd5-4b2c-ad3f-ebb7f3f4a5be" width="720" height=""/>
+<p><b>[그림14]. 심장 박동 센서 회로도</b></p>
+</center>
+
+## 2.6. NEO-6M GY-GPS6MV2
+
+- GND is the ground pin and needs to be connected to the GND pin on the Arduino.
+
+- TxD (Transmitter) pin is used for serial communication.
+
+- RxD (Receiver) pin is used for serial communication.
+
+- VCC supplies power to the module. You can connect it directly to the 5V pin on the Arduino.
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/15cd83a2-790f-49f3-8936-dc285c5e3dda" width="720" height=""/>
+<p><b>[그림15]. GPS Pin-out</b></p>
+</center>
+
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/929d0ea1-8166-4b1b-855c-a7dbeab785a1" width="720" height=""/>
+<p><b>[그림16]. GPS 회로도</b></p>
+</center>
+
+아래 소스코드는 GPS 모듈로부터 직접적으로 데이터를 받아오는 코드입니다.
+
+```arduino
+#include <SoftwareSerial.h>
+#include <TinyGPS.h>
+
+SoftwareSerial mySerial(3, 4); // RX, TX
+TinyGPS gps;
+
+void setup()  {
+  mySerial.begin(9600);
+}
+
+void loop() {
+  bool ready = false;
+  if (mySerial.available()) {
+    char c = mySerial.read();
+    if (gps.encode(c)) {
+      ready = true;
+    }
+  }
+
+  // Use actual data
+  if (ready) {
+    // Use `gps` object
+  }
+}
+```
+
+아래 소스코드는 아두이노를 Bridge로 사용하여 GPS데이터를 다른 기기로 송신하는 코드입니다. node.js를 이용해 해당 데이터를 해석할 수 있습니다.
+
+```arduino
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(3, 4); // RX, TX
+
+void setup()  {
+  Serial.begin(9600);
+  mySerial.begin(9600);
+}
+
+void loop() {
+  bool ready = false;
+  if (mySerial.available()) {
+    char c = mySerial.read();
+    Serial.write(c);
+  }
+}
+```
+
+```js
+var file = '/dev/tty.usbmodem1411'; // Your Arduino serial device
+
+var GPS = require('gps');
+var SerialPort = require('serialport');
+var port = new SerialPort.SerialPort(file, {
+  baudrate: 9600,
+  parser: SerialPort.parsers.readline('\r\n')
+});
+
+var gps = new GPS;
+
+gps.on('data', function(data) {
+  console.log(data);
+});
+
+port.on('data', function(data) {
+  gps.update(data);
+});
+```
