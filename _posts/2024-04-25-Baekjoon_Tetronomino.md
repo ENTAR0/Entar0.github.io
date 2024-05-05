@@ -74,13 +74,141 @@ tags: [CodingTest, Algorithm, Graph, Tetris]
 
 조건 중에서 폴리오미노는 Decalcomanie와 Rotate가 가능한데, 나는 귀찮으니까 Board를 90도씩 회전하는 아이디어를 사용할 것이다. 그러면 시계 방향으로 90도 회전한 Board에서는 Block도 90도 Rotate한 효과를 발휘할 것이고 180도 회전한 Board에서는 Decalcomanie가 된 효과를 발휘할 것이다.
 
-근데 270도 회전한것도 해줘야하는지 잘 모르겠어서 일단 180도까지만 진행해보았습니다.
-
-* 추가 아이디어로 보드 회전 시 정 중앙값은 고정되므로 해당 값을 기준으로 회전하려 했는데 이거는 정방행렬일때만 가능한 아이디어이므로 기각했습니다.
+* 추가 아이디어로 보드 회전 시 정 중앙값은 고정되므로 해당 값을 기준으로 회전하려 했는데 이거는 정방행렬일때만 가능한 아이디어이므로 기각했었는데, 어차피 Board 초기화 시 500, 500으로 초기화하기 때문에 (250, 250) 좌표를 기준으로 잡아 돌리기로 결정했습니다.
 
 <center>
 <img src="https://github.com/cisco/openh264/assets/56510688/c588e71d-42ee-443d-9e47-175bc57dd3b0" width="720" height=""/>
 <p><b>[그림4]. Rotating Board </b></p>
+</center>
+
+근데 500, 500을 기준으로 반복문 돌려서 90도 구현하려면 보드 크기때문에 잡아먹는 메모리양도 때문인지 292x292 초과하면 먹통이 되더군요
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#define ROWS 292
+#define COLS 292
+
+// 그래프의 노드 구조체
+typedef struct Node {
+    int data;
+    struct Node* right;
+    struct Node* down;
+} Node;
+
+// 그래프의 노드 생성 함수
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->right = NULL;
+    newNode->down = NULL;
+    return newNode;
+}
+
+// 배열을 그래프로 변환하는 함수
+Node* arrayToGraph(int arr[][COLS]) {
+    Node* graph[ROWS][COLS];
+
+    // 각 배열 요소를 그래프 노드로 변환
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            graph[i][j] = createNode(arr[i][j]);
+        }
+    }
+
+    // 이웃한 노드들 간의 연결 설정
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (i < ROWS - 1)
+                graph[i][j]->down = graph[i + 1][j];
+            if (j < COLS - 1)
+                graph[i][j]->right = graph[i][j + 1];
+        }
+    }
+
+    // 그래프의 시작 노드 반환
+    return graph[0][0];
+}
+
+Node* rotateGraph(Node* graph) {
+    Node* newGraph[COLS][ROWS];
+
+    // 새로운 그래프 생성
+    for (int i = 0; i < COLS; i++) {
+        for (int j = 0; j < ROWS; j++) {
+            newGraph[i][j] = createNode(0); // 초기화
+        }
+    }
+
+    // 그래프의 노드를 회전하여 새로운 그래프에 설정
+    Node* currentNode = graph;
+    for (int i = 0; i < ROWS; i++) {
+        Node* temp = currentNode; // 현재 행의 시작 노드를 임시로 저장
+        for (int j = 0; j < COLS; j++) {
+            newGraph[j][ROWS - 1 - i]->data = temp->data;
+            temp = temp->down; // 다음 행으로 이동
+        }
+        currentNode = currentNode->right; // 다음 열의 첫 번째 노드로 이동
+    }
+
+    // 이웃한 노드들 간의 연결 설정
+    for (int i = 0; i < COLS; i++) {
+        for (int j = 0; j < ROWS; j++) {
+            if (i < COLS - 1)
+                newGraph[i][j]->right = newGraph[i + 1][j];
+            if (j < ROWS - 1)
+                newGraph[i][j]->down = newGraph[i][j + 1];
+        }
+    }
+
+    // 새로운 그래프의 시작 노드 반환
+    return newGraph[0][0];
+}
+
+// 그래프를 배열로 변환하여 출력하는 함수
+void printGraph(Node* graph) {
+    Node* currentRow = graph;
+
+    while (currentRow != NULL) {
+        Node* currentNode = currentRow;
+        while (currentNode != NULL) {
+            printf("%d ", currentNode->data);
+            currentNode = currentNode->right;
+        }
+        printf("\n");
+        currentRow = currentRow->down;
+    }
+}
+
+int main() {
+    // 예시로 5x5 배열 생성
+    int arr[ROWS][COLS] = {
+        {1, 2, 3, 4, 5},
+        {6, 7, 8, 9, 10},
+        {11, 12, 13, 14, 15},
+        {16, 17, 18, 19, 20},
+        {21, 22, 23, 24, 25}
+    };
+
+    // 배열을 그래프로 변환
+    Node* graph = arrayToGraph(arr);
+
+    printf("Original graph:\n");
+    printGraph(graph);
+
+    // 그래프를 90도 회전
+    Node* rotatedGraph = rotateGraph(graph);
+
+    printf("\nRotated graph:\n");
+    printGraph(rotatedGraph);
+
+    return 0;
+}
+```
+
+<center>
+<img src="https://github.com/cisco/openh264/assets/56510688/ce12a6ac-5fe2-463d-9f7f-49b952db2932" width="720" height=""/>
+<p><b>[그림5]. Rotating Board </b></p>
 </center>
 
 ## 3.4. 시간복잡도를 위한 최적화
@@ -114,12 +242,14 @@ C는 평균값 이상의 칸의 갯수
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#define TETRO_SIZE 4
 #define ROWS 5
 #define COLS 5
 //(4 ≤ N, M ≤ 500)
 #define N 500
 #define M 500
+#define TETROTYPE 5
+int n = 0, m = 0;
+
 
 typedef struct {
     int value;
@@ -130,128 +260,126 @@ typedef struct{
 	TILE tile[N][M];
 }BOARD;
 
-typedef struct {
-	int array[TETRO_SIZE]; //배열의 Value 중 0은 Right, 1은 Left뜻함.
-}TETRO;
+BOARD* B;
 
-typedef struct Node {
-    int data;
-    struct Node* right;
-    struct Node* left;
-} Node;
-
-// 그래프의 노드 생성 함수
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->right = NULL;
-    newNode->left = NULL;
-    return newNode;
-}
-
-// 배열을 그래프로 변환하는 함수
-Node* arrayToGraph(int arr[][M]) {
-    Node* graph[ROWS][M];
-
-    // 각 배열 요소를 그래프 노드로 변환
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < M; j++) {
-            graph[i][j] = createNode(arr[i][j]);
-        }
-    }
-
-    // 이웃한 노드들 간의 연결 설정
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < M; j++) {
-            if (i < ROWS - 1)
-                graph[i][j]->left = graph[i + 1][j];
-            if (j < M - 1)
-                graph[i][j]->right = graph[i][j + 1];
-        }
-    }
-
-    // 그래프의 시작 노드 반환
-    return graph[0][0];
-}
-
-// 그래프를 90도 회전하는 함수
-Node* rotateGraph(Node* graph) {
-    Node* newGraph[M][N];
-
-    // 새로운 그래프 생성
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            newGraph[i][j] = createNode(0); // 초기화
-        }
-    }
-
-    // 그래프의 노드를 회전하여 새로운 그래프에 설정
-    Node* currentNode = graph;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            newGraph[j][N - 1 - i]->data = currentNode->data;
-            currentNode = currentNode->right;
-        }
-        currentNode = currentNode->left;
-    }
-
-    // 이웃한 노드들 간의 연결 설정
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            if (i < M - 1)
-                newGraph[i][j]->right = newGraph[i + 1][j];
-            if (j < N - 1)
-                newGraph[i][j]->left = newGraph[i][j + 1];
-        }
-    }
-
-    // 새로운 그래프의 시작 노드 반환
-    return newGraph[0][0];
-}
-
-// 그래프를 배열로 변환하여 출력하는 함수
-void printGraph(Node* graph) {
-    Node* currentRow = graph;
-
-    while (currentRow != NULL) {
-        Node* currentNode = currentRow;
-        while (currentNode != NULL) {
-            printf("%d ", currentNode->data);
-            currentNode = currentNode->right;
-        }
-        printf("\n");
-        currentRow = currentRow->left;
-    }
-}
-void initBoard(BOARD* b)
+void initBoard()
 {
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < M; j++)
         {
-            b->tile[N][M].isUpperThanAver = 0;
-            b->tile[N][M].value = 0;
+            B->tile[j][i].isUpperThanAver = 0;
+            B->tile[j][i].value = 0;
         }
     }
+}
+
+void reverse(int block[])
+{
+    for (int i=0; i < 6; i++)
+        if (block[i] == 1)
+            block[i] = 0;
+        else
+            block[i] = 1;
+}
+
+int setBlock(int block[], int x, int y)
+{
+    int sum;
+    int max = 0;
+    int tmpX;
+    int tmpY;
+    for (int i = 0; i < 2; i++) // Left, Right (Decalcomaine)
+    {
+        sum = 0;
+        //printf("시작 위치 X: %d, Y: %d\n", x, y);
+        tmpX = x;
+        tmpY = y;
+        //for (int j = 0; j < 4; j++) // 0degree, 90degree, 180degree, 270degree
+        //{
+        //sum += B->tile[tmpX][tmpY].value;
+        for (int k = 0; k < 3; k++)
+        {
+            if (block[i] == 1 && block[i+3] == 1 && tmpX+1 < m && tmpY+1 < n)
+            {
+                sum += B->tile[tmpX+1][tmpY].value;
+                printf("X: %d, Y: %d 좌표, %d을 더했습니다.\n", tmpX, tmpY, B->tile[tmpX+1][tmpY].value);
+                sum += B->tile[tmpX][tmpY+1].value;
+                printf("X: %d, Y: %d 좌표, %d을 더했습니다.\n", tmpX, tmpY, B->tile[tmpX][tmpY+1].value);
+                tmpX++;
+                tmpY++;
+            }
+            else
+            {
+                if (block[i] == 1 && tmpY+1 < n)
+                {
+                    sum += B->tile[tmpX][tmpY++].value;
+                    printf("X: %d, Y: %d 좌표, %d을 더했습니다.\n",tmpX, tmpY, B->tile[tmpX][tmpY].value);
+                }
+                if (block[i + 3] == 1 && tmpX+1 < m)
+                {
+                    sum += B->tile[tmpX++][tmpY].value;
+                    printf("X: %d, Y: %d 좌표, %d을 더했습니다.\n", tmpX, tmpY, B->tile[tmpX][tmpY].value);
+                }
+            }
+            
+        }
+        if (sum > max)
+            max = sum;
+        //rotate(*block);
+        //}
+        reverse(block);
+    }
+    return max;
+}
+
+int searchBoard(int blocks[][TETROTYPE])
+{
+    int xPos;
+    int yPos;
+    int max = 0;
+    int result;
+    for (int i = 0; i < n; i++) // 세로 행 반복
+    {
+        for (int j = 0; j < m; j++) // 가로 열 반복
+        {
+            if (B->tile[j][i].isUpperThanAver == 1)
+            {
+                xPos = j;
+                yPos = i;
+                for (int k = 0; k < 5; k++) // TETROTYPE 5가지
+                {
+                    result = setBlock(blocks[k],xPos,yPos);
+                }
+                if (result > max)
+                    max = result;
+            }
+            
+        }
+    }
+    return max;
 }
 
 int main()
 {
     //init phase
-	BOARD* B;
-	B = (BOARD*)malloc(sizeof(BOARD));
-    void initBoard(B);
-	int n=0, m=0;
-    int minValue, maxValue = 0; // tile의 최소, 최대값
+    B = (BOARD*)malloc(sizeof(BOARD));
+    int TETRO[TETROTYPE][6] = 
+                      { {1,1,1,0,0,0}, //3 index 기준으로 왼쪽은 down, 오른쪽은 right
+                        {1,1,0,1,0,0},
+                        {1,1,0,0,0,1},
+                        {1,0,1,0,1,0},
+                        {0,1,0,1,1,0}, };
+    void initBoard();
+    int minValue = 0, maxValue = 0; // tile의 최소, 최대값
     int max = 0; //블럭이 놓인 tile value의 최대값
-    int cmax = 0; //블럭이 놓인 tile value의 현재 최대값
     //input phase
 	scanf("%d %d", &n, &m);
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; i < m; j++)
+		for (int j = 0; j < m; j++)
 		{
-			scanf("%d ", &B->tile[j][i].value);
+			scanf("%d", &B->tile[j][i].value);
             // 최소값과 최대값 갱신
             if (i == 0 && j == 0) // 첫 번째 값으로 초기화
             { 
@@ -270,27 +398,20 @@ int main()
     //평균값보다 높은 정수 타일에 표시
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; i < m; j++)
+        for (int j = 0; j < m; j++)
         {
             if (B->tile[j][i].value > averageValue)
                 B->tile[j][i].isUpperThanAver = 1;
         }
     }
     //Compare phase
-    while (1)
-    {
-        max = searchBoard(B, T);
-        if (max > cmax)
-            cmax = max;
-    }
-    //serach phase
-    
-
-
+    max = searchBoard(TETRO);
+    printf("%d", max);
 
 	free(B);
 	return 0;
 }
-```
 
-코드 작성 중..
+//문제 왜인지 모르겠으나 1,1을 두 번가진 TETROTYPE이 존재함.
+//rotate만 구현하면 끝
+```
