@@ -1,6 +1,6 @@
 ---
-title: "아카나 카드 해석"
-date: 2024-06-10 02:23:00 +0900
+title: "타로 카드 셔플 홈페이지 구현"
+date: 2024-06-18 02:23:00 +0900
 categories: [Tarot]
 tags: [Occult, Astrology, ]
 ---
